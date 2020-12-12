@@ -1,77 +1,14 @@
 Microsoft Windows [Version 10.0.18363.1256]
 (c) 2019 Microsoft Corporation. All rights reserved.
 
-C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --scheme internet-facing --subnets subnet-ee0dd9df subnet-4bc6462d
+C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --scheme internet-facing --subnets subnet-4bc6462d subnet-ee0dd9df
 {
     "LoadBalancers": [
         {
-            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/2fdcc77090e6718e",
-            "DNSName": "Lab4-2088890426.us-east-1.elb.amazonaws.com",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/014cb9f661321505",
+            "DNSName": "Lab4-638057066.us-east-1.elb.amazonaws.com",
             "CanonicalHostedZoneId": "Z35SXDOTRQ7X7K",
-            "CreatedTime": "2020-12-12T11:33:19.430000+00:00",
-            "LoadBalancerName": "Lab4",
-            "Scheme": "internet-facing",
-            "VpcId": "vpc-1c5b8661",
-            "State": {
-                "Code": "provisioning"
-            },
-            "Type": "application",
-            "AvailabilityZones": [
-                {
-                    "SubnetId": "subnet-4bc6462d",
-                    "LoadBalancerAddresses": []
-                },
-                {
-                    "SubnetId": "subnet-ee0dd9df",
-                    "LoadBalancerAddresses": []
-                }
-            ],
-            "SecurityGroups": [
-                "sg-8e89eeba"
-            ],
-            "IpAddressType": "ipv4"
-        }
-    ]
-}
-
-
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn Lab4
-
-An error occurred (ValidationError) when calling the DeleteLoadBalancer operation: 'Lab4' must be in ARN format
-
-C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn --name Lab4
-usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
-To see help text, you can run:
-
-  aws help
-  aws <command> help
-  aws <command> <subcommand> help
-aws: error: argument --load-balancer-arn: expected one argument
-
-C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn Lab4
-
-An error occurred (ValidationError) when calling the DeleteLoadBalancer operation: 'Lab4' must be in ARN format
-
-C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/2fdcc77090e6718e
-
-
-C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --scheme internet-facing --subnets subnet-ee0dd9df subnet-4bc6462d --security-groups sg-8e89eeba
-{
-    "LoadBalancers": [
-        {
-            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8",
-            "DNSName": "Lab4-761863001.us-east-1.elb.amazonaws.com",
-            "CanonicalHostedZoneId": "Z35SXDOTRQ7X7K",
-            "CreatedTime": "2020-12-12T11:37:35.130000+00:00",
+            "CreatedTime": "2020-12-12T15:36:52.530000+00:00",
             "LoadBalancerName": "Lab4",
             "Scheme": "internet-facing",
             "VpcId": "vpc-1c5b8661",
@@ -101,61 +38,56 @@ C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --s
 
 
 C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 \
+C:\Users\artak>aws ec2 create-security-group --group-name Lab4 --description ALB-SG
+{
+    "GroupId": "sg-0ff79e8edc2261bc7"
+}
+
+
+C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-0ff79e8edc2261bc7 --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-0ff79e8edc2261bc7 --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+
+C:\Users\artak>aws elbv2 set-security-groups --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/014cb9f661321505--security-groups sg-0ff79e8edc2261bc7
 usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
 To see help text, you can run:
 
   aws help
   aws <command> help
   aws <command> <subcommand> help
+aws: error: the following arguments are required: --security-groups
 
-Unknown options: \
-
-C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-8e89eeba --protocol tcp --port 80 --cidr 0.0.0.0/0
-
-
-C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-8e89eeba --protocol tcp --port 22 --cidr 0.0.0.0/0
-
-
-C:\Users\artak>aws elbv2 set-security-groups --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --security-groups sg-8e89eeba
+C:\Users\artak>aws elbv2 set-security-groups --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/014cb9f661321505 --security-groups sg-0ff79e8edc2261bc7
 {
     "SecurityGroupIds": [
-        "sg-8e89eeba"
+        "sg-0ff79e8edc2261bc7"
     ]
 }
 
 
-C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name MyNewKeypair --output text > MyNewKeypair.pem --associate-public-ip-address --security-group-ids sg-8e89eeba
-
-An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair 'MyNewKeypair' does not exist
-
-C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name MyNewKeypair --associate-public-ip-address --security-group-ids sg-8e89eeba
-
-An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair 'MyNewKeypair' does not exist
-
-C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name ArturKey --associate-public-ip-address --security-group-ids sg-8e89eeba
+C:\Users\artak>aws ec2 run-instances --image-id ami-0790f8745fe3811a2 --count 2 --instance-type t2.micro --key-name ArturKey --associate-public-ip-address --security-group-ids sg-0ff79e8edc2261bc7
 {
     "Groups": [],
     "Instances": [
         {
             "AmiLaunchIndex": 1,
-            "ImageId": "ami-04d29b6f966df1537",
-            "InstanceId": "i-010c919127eba32e7",
+            "ImageId": "ami-0790f8745fe3811a2",
+            "InstanceId": "i-07b82be52c3923b7f",
             "InstanceType": "t2.micro",
             "KeyName": "ArturKey",
-            "LaunchTime": "2020-12-12T11:51:45+00:00",
+            "LaunchTime": "2020-12-12T15:39:08+00:00",
             "Monitoring": {
                 "State": "disabled"
             },
             "Placement": {
-                "AvailabilityZone": "us-east-1d",
+                "AvailabilityZone": "us-east-1b",
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
-            "PrivateIpAddress": "172.31.45.254",
+            "PrivateDnsName": "ip-172-31-95-76.ec2.internal",
+            "PrivateIpAddress": "172.31.95.76",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -163,19 +95,19 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
                 "Name": "pending"
             },
             "StateTransitionReason": "",
-            "SubnetId": "subnet-74b73a2b",
+            "SubnetId": "subnet-02f07f23",
             "VpcId": "vpc-1c5b8661",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "0a26e5c3-e58c-43f7-99b6-60a89031f5c1",
+            "ClientToken": "e37f7e70-b3b6-4bcf-9719-922caeb9d344",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2020-12-12T11:51:45+00:00",
-                        "AttachmentId": "eni-attach-0f85bccd7a02f02fe",
+                        "AttachTime": "2020-12-12T15:39:08+00:00",
+                        "AttachmentId": "eni-attach-06599faacfe48c827",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching"
@@ -183,26 +115,26 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
                     "Description": "",
                     "Groups": [
                         {
-                            "GroupName": "default",
-                            "GroupId": "sg-8e89eeba"
+                            "GroupName": "Lab4",
+                            "GroupId": "sg-0ff79e8edc2261bc7"
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "0e:71:9a:33:b9:c1",
-                    "NetworkInterfaceId": "eni-0ef1648bb8c984172",
+                    "MacAddress": "12:04:4f:47:fc:13",
+                    "NetworkInterfaceId": "eni-03d34654741b0d35d",
                     "OwnerId": "810661096819",
-                    "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
-                    "PrivateIpAddress": "172.31.45.254",
+                    "PrivateDnsName": "ip-172-31-95-76.ec2.internal",
+                    "PrivateIpAddress": "172.31.95.76",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
-                            "PrivateIpAddress": "172.31.45.254"
+                            "PrivateDnsName": "ip-172-31-95-76.ec2.internal",
+                            "PrivateIpAddress": "172.31.95.76"
                         }
                     ],
                     "SourceDestCheck": true,
                     "Status": "in-use",
-                    "SubnetId": "subnet-74b73a2b",
+                    "SubnetId": "subnet-02f07f23",
                     "VpcId": "vpc-1c5b8661",
                     "InterfaceType": "interface"
                 }
@@ -211,8 +143,8 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
             "RootDeviceType": "ebs",
             "SecurityGroups": [
                 {
-                    "GroupName": "default",
-                    "GroupId": "sg-8e89eeba"
+                    "GroupName": "Lab4",
+                    "GroupId": "sg-0ff79e8edc2261bc7"
                 }
             ],
             "SourceDestCheck": true,
@@ -240,21 +172,21 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
         },
         {
             "AmiLaunchIndex": 0,
-            "ImageId": "ami-04d29b6f966df1537",
-            "InstanceId": "i-0d3cb1a028ba96fc7",
+            "ImageId": "ami-0790f8745fe3811a2",
+            "InstanceId": "i-04f1663fb33eb32a9",
             "InstanceType": "t2.micro",
             "KeyName": "ArturKey",
-            "LaunchTime": "2020-12-12T11:51:45+00:00",
+            "LaunchTime": "2020-12-12T15:39:08+00:00",
             "Monitoring": {
                 "State": "disabled"
             },
             "Placement": {
-                "AvailabilityZone": "us-east-1d",
+                "AvailabilityZone": "us-east-1b",
                 "GroupName": "",
                 "Tenancy": "default"
             },
-            "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
-            "PrivateIpAddress": "172.31.33.176",
+            "PrivateDnsName": "ip-172-31-87-24.ec2.internal",
+            "PrivateIpAddress": "172.31.87.24",
             "ProductCodes": [],
             "PublicDnsName": "",
             "State": {
@@ -262,19 +194,19 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
                 "Name": "pending"
             },
             "StateTransitionReason": "",
-            "SubnetId": "subnet-74b73a2b",
+            "SubnetId": "subnet-02f07f23",
             "VpcId": "vpc-1c5b8661",
             "Architecture": "x86_64",
             "BlockDeviceMappings": [],
-            "ClientToken": "0a26e5c3-e58c-43f7-99b6-60a89031f5c1",
+            "ClientToken": "e37f7e70-b3b6-4bcf-9719-922caeb9d344",
             "EbsOptimized": false,
             "EnaSupport": true,
             "Hypervisor": "xen",
             "NetworkInterfaces": [
                 {
                     "Attachment": {
-                        "AttachTime": "2020-12-12T11:51:45+00:00",
-                        "AttachmentId": "eni-attach-0466ce621c030b43e",
+                        "AttachTime": "2020-12-12T15:39:08+00:00",
+                        "AttachmentId": "eni-attach-0c5039d75677a40e4",
                         "DeleteOnTermination": true,
                         "DeviceIndex": 0,
                         "Status": "attaching"
@@ -282,26 +214,26 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
                     "Description": "",
                     "Groups": [
                         {
-                            "GroupName": "default",
-                            "GroupId": "sg-8e89eeba"
+                            "GroupName": "Lab4",
+                            "GroupId": "sg-0ff79e8edc2261bc7"
                         }
                     ],
                     "Ipv6Addresses": [],
-                    "MacAddress": "0e:cb:11:3b:4a:17",
-                    "NetworkInterfaceId": "eni-0587e820400088a49",
+                    "MacAddress": "12:16:6a:eb:c2:8d",
+                    "NetworkInterfaceId": "eni-013c66c5152b74718",
                     "OwnerId": "810661096819",
-                    "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
-                    "PrivateIpAddress": "172.31.33.176",
+                    "PrivateDnsName": "ip-172-31-87-24.ec2.internal",
+                    "PrivateIpAddress": "172.31.87.24",
                     "PrivateIpAddresses": [
                         {
                             "Primary": true,
-                            "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
-                            "PrivateIpAddress": "172.31.33.176"
+                            "PrivateDnsName": "ip-172-31-87-24.ec2.internal",
+                            "PrivateIpAddress": "172.31.87.24"
                         }
                     ],
                     "SourceDestCheck": true,
                     "Status": "in-use",
-                    "SubnetId": "subnet-74b73a2b",
+                    "SubnetId": "subnet-02f07f23",
                     "VpcId": "vpc-1c5b8661",
                     "InterfaceType": "interface"
                 }
@@ -310,8 +242,8 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
             "RootDeviceType": "ebs",
             "SecurityGroups": [
                 {
-                    "GroupName": "default",
-                    "GroupId": "sg-8e89eeba"
+                    "GroupName": "Lab4",
+                    "GroupId": "sg-0ff79e8edc2261bc7"
                 }
             ],
             "SourceDestCheck": true,
@@ -339,21 +271,16 @@ C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 
         }
     ],
     "OwnerId": "810661096819",
-    "ReservationId": "r-02569e4582fe85aa0"
+    "ReservationId": "r-011c7234f0ab2e7e1"
 }
 
 
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
 C:\Users\artak>
 C:\Users\artak>aws elbv2 create-target-group --name Lab4-Target-Group --target-type instance --protocol HTTP --port 80 --vpc-id vpc-1c5b8661
 {
     "TargetGroups": [
         {
-            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/2a9bdda24e94361b",
             "TargetGroupName": "Lab4-Target-Group",
             "Protocol": "HTTP",
             "Port": 80,
@@ -376,34 +303,25 @@ C:\Users\artak>aws elbv2 create-target-group --name Lab4-Target-Group --target-t
 }
 
 
-C:\Users\artak>aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3 --targets Id=i-010c919127eba32e7 Id=i-0d3cb1a028ba96fc7
+C:\Users\artak>aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/2a9bdda24e94361b --targets Id=i-07b82be52c3923b7f Id=i-04f1663fb33eb32a9
 
 
-C:\Users\artak>aws elbv2 create-listener --load-balancer-arnarn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3
-usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
-To see help text, you can run:
-
-  aws help
-  aws <command> help
-  aws <command> <subcommand> help
-aws: error: the following arguments are required: --load-balancer-arn
-
-C:\Users\artak>aws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3
+C:\Users\artak>aws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/014cb9f661321505 --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/2a9bdda24e94361b
 {
     "Listeners": [
         {
-            "ListenerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:listener/app/Lab4/773d786e47f3b2c8/aa3f21c40d0c1472",
-            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8",
+            "ListenerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:listener/app/Lab4/014cb9f661321505/a2f3b1dc49e40184",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/014cb9f661321505",
             "Port": 80,
             "Protocol": "HTTP",
             "DefaultActions": [
                 {
                     "Type": "forward",
-                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/2a9bdda24e94361b",
                     "ForwardConfig": {
                         "TargetGroups": [
                             {
-                                "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+                                "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/2a9bdda24e94361b",
                                 "Weight": 1
                             }
                         ],
@@ -421,6 +339,3 @@ C:\Users\artak>aws elbv2 create-listener --load-balancer-arn arn:aws:elasticload
 C:\Users\artak>
 C:\Users\artak>
 C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>
-C:\Users\artak>aws autoscaling create-auto-scaling-group --auto-scaling-group-name Lav
