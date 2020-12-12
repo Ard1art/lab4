@@ -1,0 +1,426 @@
+Microsoft Windows [Version 10.0.18363.1256]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --scheme internet-facing --subnets subnet-ee0dd9df subnet-4bc6462d
+{
+    "LoadBalancers": [
+        {
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/2fdcc77090e6718e",
+            "DNSName": "Lab4-2088890426.us-east-1.elb.amazonaws.com",
+            "CanonicalHostedZoneId": "Z35SXDOTRQ7X7K",
+            "CreatedTime": "2020-12-12T11:33:19.430000+00:00",
+            "LoadBalancerName": "Lab4",
+            "Scheme": "internet-facing",
+            "VpcId": "vpc-1c5b8661",
+            "State": {
+                "Code": "provisioning"
+            },
+            "Type": "application",
+            "AvailabilityZones": [
+                {
+                    "SubnetId": "subnet-4bc6462d",
+                    "LoadBalancerAddresses": []
+                },
+                {
+                    "SubnetId": "subnet-ee0dd9df",
+                    "LoadBalancerAddresses": []
+                }
+            ],
+            "SecurityGroups": [
+                "sg-8e89eeba"
+            ],
+            "IpAddressType": "ipv4"
+        }
+    ]
+}
+
+
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn Lab4
+
+An error occurred (ValidationError) when calling the DeleteLoadBalancer operation: 'Lab4' must be in ARN format
+
+C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn --name Lab4
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+aws: error: argument --load-balancer-arn: expected one argument
+
+C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn Lab4
+
+An error occurred (ValidationError) when calling the DeleteLoadBalancer operation: 'Lab4' must be in ARN format
+
+C:\Users\artak>aws elbv2 delete-load-balancer --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/2fdcc77090e6718e
+
+
+C:\Users\artak>aws elbv2 create-load-balancer --name Lab4 --type application --scheme internet-facing --subnets subnet-ee0dd9df subnet-4bc6462d --security-groups sg-8e89eeba
+{
+    "LoadBalancers": [
+        {
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8",
+            "DNSName": "Lab4-761863001.us-east-1.elb.amazonaws.com",
+            "CanonicalHostedZoneId": "Z35SXDOTRQ7X7K",
+            "CreatedTime": "2020-12-12T11:37:35.130000+00:00",
+            "LoadBalancerName": "Lab4",
+            "Scheme": "internet-facing",
+            "VpcId": "vpc-1c5b8661",
+            "State": {
+                "Code": "provisioning"
+            },
+            "Type": "application",
+            "AvailabilityZones": [
+                {
+                    "ZoneName": "us-east-1a",
+                    "SubnetId": "subnet-4bc6462d",
+                    "LoadBalancerAddresses": []
+                },
+                {
+                    "ZoneName": "us-east-1e",
+                    "SubnetId": "subnet-ee0dd9df",
+                    "LoadBalancerAddresses": []
+                }
+            ],
+            "SecurityGroups": [
+                "sg-8e89eeba"
+            ],
+            "IpAddressType": "ipv4"
+        }
+    ]
+}
+
+
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>aws elbv2 create-target-group --name my-targets --protocol HTTP --port 80 \
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+Unknown options: \
+
+C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-8e89eeba --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+C:\Users\artak>aws ec2 authorize-security-group-ingress --group-id sg-8e89eeba --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+
+C:\Users\artak>aws elbv2 set-security-groups --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --security-groups sg-8e89eeba
+{
+    "SecurityGroupIds": [
+        "sg-8e89eeba"
+    ]
+}
+
+
+C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name MyNewKeypair --output text > MyNewKeypair.pem --associate-public-ip-address --security-group-ids sg-8e89eeba
+
+An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair 'MyNewKeypair' does not exist
+
+C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name MyNewKeypair --associate-public-ip-address --security-group-ids sg-8e89eeba
+
+An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair 'MyNewKeypair' does not exist
+
+C:\Users\artak>aws ec2 run-instances --image-id ami-04d29b6f966df1537 --count 2 --instance-type t2.micro --key-name ArturKey --associate-public-ip-address --security-group-ids sg-8e89eeba
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 1,
+            "ImageId": "ami-04d29b6f966df1537",
+            "InstanceId": "i-010c919127eba32e7",
+            "InstanceType": "t2.micro",
+            "KeyName": "ArturKey",
+            "LaunchTime": "2020-12-12T11:51:45+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1d",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
+            "PrivateIpAddress": "172.31.45.254",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-74b73a2b",
+            "VpcId": "vpc-1c5b8661",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "0a26e5c3-e58c-43f7-99b6-60a89031f5c1",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-12T11:51:45+00:00",
+                        "AttachmentId": "eni-attach-0f85bccd7a02f02fe",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "default",
+                            "GroupId": "sg-8e89eeba"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0e:71:9a:33:b9:c1",
+                    "NetworkInterfaceId": "eni-0ef1648bb8c984172",
+                    "OwnerId": "810661096819",
+                    "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
+                    "PrivateIpAddress": "172.31.45.254",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-45-254.ec2.internal",
+                            "PrivateIpAddress": "172.31.45.254"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-74b73a2b",
+                    "VpcId": "vpc-1c5b8661",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "default",
+                    "GroupId": "sg-8e89eeba"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        },
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-04d29b6f966df1537",
+            "InstanceId": "i-0d3cb1a028ba96fc7",
+            "InstanceType": "t2.micro",
+            "KeyName": "ArturKey",
+            "LaunchTime": "2020-12-12T11:51:45+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1d",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
+            "PrivateIpAddress": "172.31.33.176",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-74b73a2b",
+            "VpcId": "vpc-1c5b8661",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "0a26e5c3-e58c-43f7-99b6-60a89031f5c1",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-12T11:51:45+00:00",
+                        "AttachmentId": "eni-attach-0466ce621c030b43e",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "default",
+                            "GroupId": "sg-8e89eeba"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0e:cb:11:3b:4a:17",
+                    "NetworkInterfaceId": "eni-0587e820400088a49",
+                    "OwnerId": "810661096819",
+                    "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
+                    "PrivateIpAddress": "172.31.33.176",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-33-176.ec2.internal",
+                            "PrivateIpAddress": "172.31.33.176"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-74b73a2b",
+                    "VpcId": "vpc-1c5b8661",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "default",
+                    "GroupId": "sg-8e89eeba"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "810661096819",
+    "ReservationId": "r-02569e4582fe85aa0"
+}
+
+
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>aws elbv2 create-target-group --name Lab4-Target-Group --target-type instance --protocol HTTP --port 80 --vpc-id vpc-1c5b8661
+{
+    "TargetGroups": [
+        {
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+            "TargetGroupName": "Lab4-Target-Group",
+            "Protocol": "HTTP",
+            "Port": 80,
+            "VpcId": "vpc-1c5b8661",
+            "HealthCheckProtocol": "HTTP",
+            "HealthCheckPort": "traffic-port",
+            "HealthCheckEnabled": true,
+            "HealthCheckIntervalSeconds": 30,
+            "HealthCheckTimeoutSeconds": 5,
+            "HealthyThresholdCount": 5,
+            "UnhealthyThresholdCount": 2,
+            "HealthCheckPath": "/",
+            "Matcher": {
+                "HttpCode": "200"
+            },
+            "TargetType": "instance",
+            "ProtocolVersion": "HTTP1"
+        }
+    ]
+}
+
+
+C:\Users\artak>aws elbv2 register-targets --target-group-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3 --targets Id=i-010c919127eba32e7 Id=i-0d3cb1a028ba96fc7
+
+
+C:\Users\artak>aws elbv2 create-listener --load-balancer-arnarn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+aws: error: the following arguments are required: --load-balancer-arn
+
+C:\Users\artak>aws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8 --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3
+{
+    "Listeners": [
+        {
+            "ListenerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:listener/app/Lab4/773d786e47f3b2c8/aa3f21c40d0c1472",
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:loadbalancer/app/Lab4/773d786e47f3b2c8",
+            "Port": 80,
+            "Protocol": "HTTP",
+            "DefaultActions": [
+                {
+                    "Type": "forward",
+                    "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+                    "ForwardConfig": {
+                        "TargetGroups": [
+                            {
+                                "TargetGroupArn": "arn:aws:elasticloadbalancing:us-east-1:810661096819:targetgroup/Lab4-Target-Group/dc782f3bcd1aeef3",
+                                "Weight": 1
+                            }
+                        ],
+                        "TargetGroupStickinessConfig": {
+                            "Enabled": false
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>
+C:\Users\artak>aws autoscaling create-auto-scaling-group --auto-scaling-group-name Lav
